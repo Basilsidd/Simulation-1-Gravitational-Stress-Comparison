@@ -9,3 +9,6 @@ Python implementation validating E=mg² vs E=mc² from Quranic cosmology theory.
 ```bash
 pip install numpy matplotlib
 python gravitational_stress.py
+
+Contact 
+basil.siddiqiui@gmail.com

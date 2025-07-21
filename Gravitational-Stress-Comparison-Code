@@ -1,0 +1,53 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+c = 3e8  # light speed (m/s)
+g_earth = 9.8  # Earth gravity (m/s²)
+
+def einstein_energy(mass, velocity):
+    """E = mc² with Lorentz factor for relativistic effects"""
+    gamma = 1 / np.sqrt(1 - (velocity**2 / c**2))
+    return mass * gamma * c**2
+
+def basalian_energy(mass, gravity):
+    """E = mg² (Basalian gravitational binding energy)"""
+    return mass * (gravity ** 2)
+
+# Test parameters
+mass = 1000  # kg (e.g., spacecraft)
+velocities = np.linspace(0, 0.99*c, 100)  # from 0 to 99% light speed
+gravities = np.linspace(0.1, 20, 100)  # gravity from 0.1g to 20g
+
+# Calculate energies
+einstein_energies = [einstein_energy(mass, v) for v in velocities]
+basalian_energies = [basalian_energy(mass, g) for g in gravities]
+
+# Plot results
+plt.figure(figsize=(15, 6))
+
+# E = mc² plot
+plt.subplot(1, 2, 1)
+plt.plot(velocities/c, einstein_energies, 'r-', linewidth=2)
+plt.axvline(x=0.7, color='k', linestyle='--', label='70% c: Structural failure threshold')
+plt.xlabel('Velocity (Fraction of Light Speed)')
+plt.ylabel('Energy (Joules)')
+plt.title('EINSTEIN: E = mc²\nDestructive Energy Regime')
+plt.legend()
+plt.grid(True)
+
+# E = mg² plot
+plt.subplot(1, 2, 2)
+plt.plot(gravities, basalian_energies, 'b-', linewidth=2)
+plt.axvline(x=1, color='g', label='Earth Gravity (1g)')
+plt.axvline(x=3, color='orange', label='Mars Gravity (3g)')
+plt.axvline(x=10, color='r', label='Failure Threshold (10g)')
+plt.xlabel('Gravity (Earth g)')
+plt.ylabel('Energy (Joules)')
+plt.title('BASALIAN: E = mg²\nStability Energy Regime')
+plt.legend()
+plt.grid(True)
+
+plt.tight_layout()
+plt.savefig('gravitational_stress_comparison.png', dpi=300)
+plt.show()
